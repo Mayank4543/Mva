@@ -9,24 +9,9 @@ function digitsOnly(value) {
   return (value || "").toString().replace(/\D/g, "");
 }
 
-function getRealIp(req) {
-  const sources = [
-    req.headers["x-forwarded-for"],
-    req.headers["x-real-ip"],
-    req.headers["cf-connecting-ip"],
-  ];
-
-  for (const source of sources) {
-    if (!source) continue;
-    for (const candidate of source.split(",")) {
-      const ip = candidate.trim();
-      if (!/^\d{1,3}(?:\.\d{1,3}){3}$/.test(ip)) continue;
-      const [a, b] = ip.split(".").map(Number);
-      if (a === 10 || a === 127 || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168)) continue;
-      return ip;
-    }
-  }
-  return "";
+function isValidIpAddress(value) {
+  const parts = value.split(".");
+  return parts.length === 4 && parts.every((part) => /^\d{1,3}$/.test(part) && Number(part) >= 0 && Number(part) <= 255);
 }
 
 async function sendLeadEmail(lead, lpResponse, error = "") {
@@ -102,8 +87,16 @@ export default async function handler(req, res) {
     if (!/^\d{5}$/.test(String(data.zip_code || ""))) {
       errors.zip_code = "is required and must contain 5 digits";
     }
-    if (!data.landing_page_url) {
-      errors.landing_page_url = "is required";
+    if (data.landing_page_url) {
+      try {
+        const url = new URL(data.landing_page_url);
+        if (!["http:", "https:"].includes(url.protocol)) throw new Error();
+      } catch {
+        errors.landing_page_url = "must be a valid HTTP or HTTPS URL";
+      }
+    }
+    if (data.ip_address && !isValidIpAddress(String(data.ip_address).trim())) {
+      errors.ip_address = "must be a valid IPv4 address";
     }
     if (!data.incident_state) errors.incident_state = "is required";
     if (!data.incident_date || !/^\d{2}\/\d{2}\/\d{4}$/.test(data.incident_date)) {
@@ -122,7 +115,6 @@ export default async function handler(req, res) {
       return res.status(400).json({ status: "ERROR", errors });
     }
 
-    const ipAddress = getRealIp(req);
     lead = {
       lp_campaign_id: LP_CAMPAIGN_ID,
       lp_supplier_id: LP_SUPPLIER_ID,
@@ -135,8 +127,8 @@ export default async function handler(req, res) {
       city: data.city,
       state: data.state.toUpperCase(),
       zip_code: String(data.zip_code),
-      ip_address: ipAddress,
-      landing_page_url: data.landing_page_url,
+      ip_address: String(data.ip_address || "").trim(),
+      landing_page_url: String(data.landing_page_url || "").trim(),
       jornaya_leadid: data.jornaya_leadid || "",
       trustedform_cert_url: data.trustedform_cert_url || "",
       incident_state: data.incident_state,

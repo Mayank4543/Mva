@@ -234,6 +234,16 @@
                         <label for="trustedform_cert_url">TrustedForm Certificate URL</label>
                         <input id="trustedform_cert_url" name="trustedform_cert_url" type="url" placeholder="https://cert.trustedform.com/..." />
                     </div>
+                    <div class="field">
+                        <label for="landing_page_url">Landing Page URL</label>
+                        <input id="landing_page_url" name="landing_page_url" type="url" placeholder="https://example.com/" />
+                        <span class="small">Optional; leave blank to use no landing page URL.</span>
+                    </div>
+                    <div class="field">
+                        <label for="ip_address">IP Address</label>
+                        <input id="ip_address" name="ip_address" inputmode="decimal" placeholder="192.0.2.1" />
+                        <span class="small">Optional US IP Address.</span>
+                    </div>
                 </div>
             </fieldset>
 
@@ -290,7 +300,8 @@
                 city: get("city"),
                 state: get("state"),
                 zip_code: get("zip_code"),
-                landing_page_url: window.location.href,
+                landing_page_url: get("landing_page_url"),
+                ip_address: get("ip_address"),
                 jornaya_leadid: get("jornaya_leadid"),
                 trustedform_cert_url: get("trustedform_cert_url"),
                 incident_state: get("incident_state"),
