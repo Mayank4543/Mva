@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lead Submission Form</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #111827;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #22c55e;
+            --danger: #ef4444;
+            --border: #374151;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(160deg, #020617, #0f172a);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        h1 { margin-top: 0; font-size: 22px; }
+        fieldset {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            padding: 14px;
+        }
+        legend { color: #d1d5db; font-size: 13px; padding: 0 6px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .field.full { grid-column: 1 / -1; }
+        label { font-size: 13px; color: #d1d5db; }
+        label .req { color: var(--danger); }
+        input, select, button {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #0b1220;
+            color: var(--text);
+            padding: 10px;
+            font-size: 14px;
+        }
+        select option { background: #0b1220; }
+        button {
+            cursor: pointer;
+            background: var(--accent);
+            color: #052e16;
+            border: 0;
+            font-weight: 700;
+            margin-top: 8px;
+            padding: 12px;
+            font-size: 15px;
+        }
+        button:disabled { opacity: 0.6; cursor: wait; }
+        .status {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+            white-space: pre-wrap;
+            line-height: 1.4;
+            font-size: 13px;
+        }
+        .status.ok {
+            display: block;
+            background: #052e16;
+            color: #bbf7d0;
+            border: 1px solid #15803d;
+        }
+        .status.error {
+            display: block;
+            background: #450a0a;
+            color: #fecaca;
+            border: 1px solid #b91c1c;
+        }
+        .small { font-size: 12px; color: var(--muted); }
+        @media (max-width: 760px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lead Submission Form</h1>
+        <form id="leadForm">
+            <fieldset>
+                <legend>Lead Details</legend>
+                <div class="grid">
+                    <div class="field">
+                        <label for="first_name">First Name <span class="req">*</span></label>
+                        <input id="first_name" name="first_name" required />
+                    </div>
+                    <div class="field">
+                        <label for="last_name">Last Name <span class="req">*</span></label>
+                        <input id="last_name" name="last_name" required />
+                    </div>
+                    <div class="field">
+                        <label for="email">Email Address <span class="req">*</span></label>
+                        <input id="email" name="email" type="email" required />
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone Number <span class="req">*</span></label>
+                        <input id="phone" name="phone" inputmode="numeric" placeholder="3152508984" required />
+                        <span class="small">10 digits</span>
+                    </div>
+                    <div class="field">
+                        <label for="date_of_birth">Date of Birth <span class="req">*</span></label>
+                        <input id="date_of_birth" name="date_of_birth" type="date" required />
+                    </div>
+                    <div class="field">
+                        <label for="city">City <span class="req">*</span></label>
+                        <input id="city" name="city" required />
+                    </div>
+                    <div class="field">
+                        <label for="state">State <span class="req">*</span></label>
+                        <select id="state" name="state" required>
+                            <option value="">Select state</option>
+                            <option value="AL">AL - Alabama</option><option value="AK">AK - Alaska</option>
+                            <option value="AZ">AZ - Arizona</option><option value="AR">AR - Arkansas</option>
+                            <option value="CA">CA - California</option><option value="CO">CO - Colorado</option>
+                            <option value="CT">CT - Connecticut</option><option value="DE">DE - Delaware</option>
+                            <option value="FL">FL - Florida</option><option value="GA">GA - Georgia</option>
+                            <option value="HI">HI - Hawaii</option><option value="ID">ID - Idaho</option>
+                            <option value="IL">IL - Illinois</option><option value="IN">IN - Indiana</option>
+                            <option value="IA">IA - Iowa</option><option value="KS">KS - Kansas</option>
+                            <option value="KY">KY - Kentucky</option><option value="LA">LA - Louisiana</option>
+                            <option value="ME">ME - Maine</option><option value="MD">MD - Maryland</option>
+                            <option value="MA">MA - Massachusetts</option><option value="MI">MI - Michigan</option>
+                            <option value="MN">MN - Minnesota</option><option value="MS">MS - Mississippi</option>
+                            <option value="MO">MO - Missouri</option><option value="MT">MT - Montana</option>
+                            <option value="NE">NE - Nebraska</option><option value="NV">NV - Nevada</option>
+                            <option value="NH">NH - New Hampshire</option><option value="NJ">NJ - New Jersey</option>
+                            <option value="NM">NM - New Mexico</option><option value="NY">NY - New York</option>
+                            <option value="NC">NC - North Carolina</option><option value="ND">ND - North Dakota</option>
+                            <option value="OH">OH - Ohio</option><option value="OK">OK - Oklahoma</option>
+                            <option value="OR">OR - Oregon</option><option value="PA">PA - Pennsylvania</option>
+                            <option value="RI">RI - Rhode Island</option><option value="SC">SC - South Carolina</option>
+                            <option value="SD">SD - South Dakota</option><option value="TN">TN - Tennessee</option>
+                            <option value="TX">TX - Texas</option><option value="UT">UT - Utah</option>
+                            <option value="VT">VT - Vermont</option><option value="VA">VA - Virginia</option>
+                            <option value="WA">WA - Washington</option><option value="WV">WV - West Virginia</option>
+                            <option value="WI">WI - Wisconsin</option><option value="WY">WY - Wyoming</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="zip_code">ZIP Code <span class="req">*</span></label>
+                        <input id="zip_code" name="zip_code" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" required />
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Incident Details</legend>
+                <div class="grid">
+                    <div class="field">
+                        <label for="incident_state">Incident State <span class="req">*</span></label>
+                        <select id="incident_state" name="incident_state" required>
+                            <option value="">Select full state name</option>
+                            <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
+                            <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
+                            <option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+                            <option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option>
+                            <option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option>
+                            <option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+                            <option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option>
+                            <option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option>
+                            <option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+                            <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option>
+                            <option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option>
+                            <option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option>
+                            <option>Wisconsin</option><option>Wyoming</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="incident_date">Incident Date <span class="req">*</span></label>
+                        <input id="incident_date" name="incident_date" type="date" required />
+                    </div>
+                    <div class="field">
+                        <label for="have_attorney">Have an Attorney? <span class="req">*</span></label>
+                        <select id="have_attorney" name="have_attorney" required>
+                            <option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="at_fault">Were You at Fault? <span class="req">*</span></label>
+                        <select id="at_fault" name="at_fault" required>
+                            <option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="doctor_treatment">Did You Receive Doctor Treatment? <span class="req">*</span></label>
+                        <select id="doctor_treatment" name="doctor_treatment" required>
+                            <option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="physical_injury">Did You Have a Physical Injury? <span class="req">*</span></label>
+                        <select id="physical_injury" name="physical_injury" required>
+                            <option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Lead Verification (Jornaya or TrustedForm is required)</legend>
+                <div class="grid">
+                    <div class="field">
+                        <label for="jornaya_leadid">Jornaya Lead ID</label>
+                        <input id="jornaya_leadid" name="jornaya_leadid" />
+                    </div>
+                    <div class="field">
+                        <label for="trustedform_cert_url">TrustedForm Certificate URL</label>
+                        <input id="trustedform_cert_url" name="trustedform_cert_url" type="url" placeholder="https://cert.trustedform.com/..." />
+                    </div>
+                </div>
+            </fieldset>
+
+            <button id="submitBtn" type="submit">Submit Lead</button>
+            <div id="status" class="status" aria-live="polite"></div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById("leadForm");
+        const statusEl = document.getElementById("status");
+        const submitBtn = document.getElementById("submitBtn");
+
+        function setStatus(message, type) {
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+
+        function digitsOnly(value) {
+            return (value || "").toString().replace(/\D/g, "");
+        }
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            statusEl.className = "status";
+
+            const data = new FormData(form);
+            const get = (name) => (data.get(name) || "").toString().trim();
+
+            const phone = digitsOnly(get("phone"));
+            if (phone.length !== 10) {
+                setStatus("Phone Number must contain exactly 10 digits.", "error");
+                return;
+            }
+
+            if (!get("jornaya_leadid") && !get("trustedform_cert_url")) {
+                setStatus("Provide either a Jornaya Lead ID or a TrustedForm Certificate URL.", "error");
+                return;
+            }
+
+            const incidentDateRaw = get("incident_date");
+            let incidentDate = "";
+            if (incidentDateRaw) {
+                const [year, month, day] = incidentDateRaw.split("-");
+                incidentDate = `${month}/${day}/${year}`;
+            }
+
+            const payload = {
+                first_name: get("first_name"),
+                last_name: get("last_name"),
+                email: get("email"),
+                phone,
+                date_of_birth: get("date_of_birth"),
+                city: get("city"),
+                state: get("state"),
+                zip_code: get("zip_code"),
+                landing_page_url: window.location.href,
+                jornaya_leadid: get("jornaya_leadid"),
+                trustedform_cert_url: get("trustedform_cert_url"),
+                incident_state: get("incident_state"),
+                incident_date: incidentDate,
+                have_attorney: get("have_attorney"),
+                at_fault: get("at_fault"),
+                doctor_treatment: get("doctor_treatment"),
+                physical_injury: get("physical_injury")
+            };
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Submitting Lead…";
+
+            try {
+                const res = await fetch("/api/send-email", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                const body = await res.json().catch(() => ({}));
+                if (!res.ok) {
+                    throw new Error(body.message || body.error || `Request failed (HTTP ${res.status})`);
+                }
+
+                if (body.status === "ACCEPTED") {
+                    setStatus(`Lead accepted.\nLead ID: ${body.lead_id || "—"}`, "ok");
+                    form.reset();
+                } else if (body.status === "DUPLICATED") {
+                    setStatus(`Lead was duplicated.\n${body.message || ""}`, "error");
+                } else {
+                    setStatus(`Lead was not accepted.\n${body.message || "LeadProsper returned an error."}`, "error");
+                }
+            } catch (error) {
+                setStatus(`Submission failed: ${error.message}`, "error");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit Lead";
+            }
+        });
+    </script>
+</body>
+</html>
