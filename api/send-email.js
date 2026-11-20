@@ -139,10 +139,14 @@ export default async function handler(req, res) {
       physical_injury: data.physical_injury,
     };
 
+    const productionLead = { ...lead };
+    delete productionLead.lp_action;
+    delete productionLead.lp_supplier_test_mode;
+
     const lpRes = await fetch(LEADPROSPER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(lead),
+      body: JSON.stringify(productionLead),
     });
 
     let lpResponse;
